@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html ng-app="project">
+  <head><meta charset="ISO-8859-1">
+<title>Dave's List</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+ -->    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-route.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/1.1.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.min.js"></script>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+	<link rel="stylesheet" href="angular-bootstrap.css">
+    <script src="ui-bootstrap.js"></script>
+    <script src="land.js"></script>
+  </head>
+  <body>
+
+  <div ng-controller="TabsDemoCtrl">
+	<tabset>
+	   <tab heading="Home"><H1>Welcome to Mad Skills Training</H1></tab>
+	   <tab heading="Profile">
+			<div ng-controller="ProfileCtrl">
+				<label>Name:</label>
+				<input type="text" ng-model="yourName" placeholder="Enter a name here">
+				<br/>
+				<label>Division:</label>
+				<input type="text" ng-model="teamName" placeholder="Enter team name">
+				<hr />
+				<h1>Hello {{yourName}}!</h1>
+			</div>
+	   </tab>
+	   <tab heading="Author"><H1>Enter subjects and questions here</H1>
+	   		<div ng-controller="AuthorCtrl">
+	   		<form name="myForm">
+			  <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+			    <label>Name</label>
+			    <input type="text" name="name" ng-model="subject.name" required>
+			    <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
+			        Required {{myForm.name.$pristine}}</span>
+			  </div>
+			 
+			  <div class="control-group" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
+			    <label>Website</label>
+			    <input type="url" name="site" ng-model="subject.site" required>
+			    <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
+			        Required</span>
+			    <span ng-show="myForm.site.$error.url" class="help-inline">
+			        Not a URL</span>
+			  </div>
+			 
+			  <label>Description</label>
+			  <textarea name="description" ng-model="subject.description"></textarea>
+			 
+			  <br>
+			  <button ng-click="save()" ng-disabled="myForm.$invalid"
+			          class="btn btn-primary">Save</button>
+			  <button ng-click="destroy()"
+			          ng-show="subject.$id" class="btn btn-danger">Delete</button>
+			</form>
+	   		<table>
+			  <thead>
+			  <tr>
+			    <th>Subject</th>
+			    <th>Description</th>
+			    <th></th>
+			  </tr>
+			  </thead>
+			  <tbody>
+			  <tr ng-repeat="subject in subjects | orderBy:'name'">
+			    <td><a ng-href="{{subject.site}}" target="_blank">{{subject.name}}</a></td>
+			    <td>{{subject.description}}</td>
+			    <td><i class="icon-remove" ng-click="destroy()" ></i></td>
+			  </tr>
+			  </tbody>
+			</table>
+	   		</div>
+	   </tab>
+	   
+	   <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+	     {{tab.content}}
+	   </tab>
+	 </tabset>
+	</div> 
+  </body>
+</html>
